@@ -1,9 +1,13 @@
-import React,{createContext } from "react";
+import React, { createContext } from "react";
+
+interface User {
+    token?: string;
+}
 
 export const value = {}
 
 export const UserContext = createContext({
-    user:null,
-    setUser: () => {}
+    user: { token: '' },
+    handleLogin: (user: {}) => { }
 })
 export const UserContextProvider = UserContext.Provider;
