@@ -1,27 +1,40 @@
 import React, { useState } from 'react';
+import { useContext } from 'react';
+import { UserContext } from './../context/UserContext';
 import {
     Input, Button, Box, FormControl,
     FormLabel,
-    FormErrorMessage,
-    FormHelperText,
+    Text,
 } from '@chakra-ui/react'
+
+export interface User {
+    token?: string;
+}
 interface Props { }
 const Login: React.FC<Props> = ({ }) => {
     const [password, setPassword] = useState('')
     const [username, setUserName] = useState('');
+
+    const [token, setToken] = useState<string>('')
+
+    const { user, handleLogin } = useContext(UserContext)
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+
         event.preventDefault();
-        const user = JSON.stringify({ username, password });
+        const userData = JSON.stringify({ username, password });
         try {
             const response = await fetch("http://localhost:3000/auth/login", {
                 method: "POST",
-                body: user,
+                body: userData,
                 headers: {
                     "content-type": "application/json"
                 }
             });
             const data = await response.json();
             console.log(data)
+            console.log(user);
+            handleLogin({ token: data.access_token })
+            setToken(user.token)
         } catch (e) {
             console.error(e);
         }
@@ -45,6 +58,10 @@ const Login: React.FC<Props> = ({ }) => {
             />
             <Button type={"submit"} mt='4' w='full' colorScheme='blue'>Login</Button>
         </form>
+
+        <Text>
+            Le token - {JSON.stringify(token)}
+        </Text>
     </Box>
 }
 export default Login;
