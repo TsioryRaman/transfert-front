@@ -15,7 +15,8 @@ import { Player, Controls } from '@lottiefiles/react-lottie-player';
 const Auth = () => {
   return (
 
-    <Stack minH={'90vh'} direction={{ base: 'column', md: 'row' }}>
+    <Stack minH={'75vh'} direction={{ base: 'column', md: 'row' }}>
+      
       <Flex p={8} flex={1} align={'center'} justify={'center'}>
         <Stack spacing={4} w={'full'} maxW={'md'}>
           <Heading fontSize={'2xl'}>Sign in to your account</Heading>
@@ -48,9 +49,8 @@ const Auth = () => {
             autoplay={true}
             loop={true}
             controls={true}
-            speed={0.7}
-            src="https://assets5.lottiefiles.com/packages/lf20_fWd36IjnsR.json"
-            /* src="https://assets8.lottiefiles.com/packages/lf20_mbrocy0r.json" */
+            speed={0.3}
+            src="https://assets2.lottiefiles.com/packages/lf20_pwwZiL9I3Y.json"
             style={{ height: '500px', width: '500px' }}
           >
           </Player>

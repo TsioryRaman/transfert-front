@@ -7,10 +7,13 @@ import { UserContext, UserContextProvider } from './context/UserContext'
 import { useState } from 'react';
 import Accueil from './components/Accueil';
 import Auth from './components/Auth';
+import { useColorMode } from '@chakra-ui/color-mode';
+import { Button } from '@chakra-ui/button';
+import Signup from './components/Signup';
 function App() {
 
   const [user, setUser] = useState<User>()
-
+  const { colorMode, toggleColorMode } = useColorMode()
   const handleLogin = (token: {}) => {
     setUser(token)
   }
@@ -28,11 +31,19 @@ function App() {
             <li>
               <Link to="/login">Login</Link>
             </li>
+            <li>
+              <Link to="/signup">signup</Link>
+            </li>
           </ul>
+
+          <Button size='sm' colorScheme='blue' onClick={toggleColorMode}>
+            Toggle Mode
+          </Button>
           <Routes>
             <Route index element={<Home />} />
-            <Route path="blogs" element={<Help />} />
-            <Route path="Login" element={<Login />} />
+            <Route path="help" element={<Accueil />} />
+            <Route path="Login" element={<Auth />} />
+            <Route path="Signup" element={<Signup />} />
           </Routes>
         </UserContextProvider>
       </BrowserRouter>
