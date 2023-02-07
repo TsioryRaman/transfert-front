@@ -5,7 +5,8 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import { Help } from './components/help'
 import { UserContext, UserContextProvider } from './context/UserContext'
 import { useState } from 'react';
-
+import Accueil from './components/Accueil';
+import Auth from './components/Auth';
 function App() {
 
   const [user, setUser] = useState<User>()
