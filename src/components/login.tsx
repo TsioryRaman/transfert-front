@@ -18,7 +18,6 @@ const Login: React.FC<Props> = ({ }) => {
     const [token, setToken] = useState<string>('')
 
     const { user, handleLogin } = useContext(UserContext)
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
         event.preventDefault();

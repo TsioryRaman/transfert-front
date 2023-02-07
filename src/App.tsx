@@ -1,4 +1,4 @@
-import { socket, WebSocketProvider } from './WebSocketContexts'
+import { socket, WebSocketProvider } from './socket.io/WebSocketContexts'
 import { Home } from './components/home'
 import Login, { User } from './components/login';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'

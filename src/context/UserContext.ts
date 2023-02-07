@@ -4,6 +4,8 @@ interface User {
     token?: string;
 }
 
+export const value = {}
+
 export const UserContext = createContext({
     user: { token: '' },
     handleLogin: (user: {}) => { }
