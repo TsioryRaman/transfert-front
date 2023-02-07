@@ -1,7 +1,8 @@
 import { Box, Button, useColorMode } from "@chakra-ui/react";
 import React, { useContext, useEffect } from "react"
 import { Socket } from "socket.io-client";
-import { WebSocketContext } from "../WebSocketContexts";
+import { UserContext } from "../context/UserContext";
+import { WebSocketContext } from "../socket.io/WebSocketContexts";
 
 export const Home = () => {
 
@@ -9,7 +10,11 @@ export const Home = () => {
 
     const { colorMode, toggleColorMode } = useColorMode()
 
+    const {user,setUser} = useContext(UserContext);
+
     useEffect(()=> {
+        setUser({token:"Cool"});
+        console.log(user);
         socket.on("connect",() => {
             console.log("Connected")
         })
