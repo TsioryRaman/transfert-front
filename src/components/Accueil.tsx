@@ -12,8 +12,6 @@ import {
     Heading,
     useBreakpointValue,
 } from '@chakra-ui/react'
-import { FiMenu } from 'react-icons/fi'
-import React from "react"
 import { GrLogout } from 'react-icons/Gr'
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
 
@@ -76,7 +74,7 @@ const Accueil = () => {
                 speed={0.7}
                 src="https://assets5.lottiefiles.com/packages/lf20_fWd36IjnsR.json"
                 /* src="https://assets8.lottiefiles.com/packages/lf20_mbrocy0r.json" */
-                style={{ height: '550px', width: '550px' }}
+                style={{ height: '450px', width: '500px' }}
             >
                
             </Player>
