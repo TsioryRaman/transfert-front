@@ -5,8 +5,6 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import { Help } from './components/help'
 import { UserContext, UserContextProvider } from './context/UserContext'
 import { useState } from 'react';
-
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Accueil from './components/Accueil';
 import Auth from './components/Auth';
 function App() {
