@@ -9,10 +9,23 @@ import {
   Link,
   Center,
   Stack,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
+import { extendTheme } from '@chakra-ui/react'
 
 const Auth = () => {
+  const breakpoints = {
+    sm: '320px',
+    md: '768px',
+    lg: '960px',
+    xl: '1200px',
+    '2xl': '1536px',
+  }
+  const theme = extendTheme({ breakpoints })
+  
+  
+
   return (
 
     <Stack minH={'75vh'} direction={{ base: 'column', md: 'row' }}>
@@ -34,7 +47,7 @@ const Auth = () => {
               align={'start'}
               justify={'space-between'}>
               <Checkbox>Remember me</Checkbox>
-              <Link color={'blue.500'}>Forgot password?</Link>
+              <Link color={'blue.500'} href='./Signup'>Forgot password?</Link>
             </Stack>
             <Button colorScheme={'blue'} variant={'solid'}>
               Sign in
@@ -43,7 +56,7 @@ const Auth = () => {
         </Stack>
       </Flex>
 
-      <Flex flex={1} justify='center'>
+      <Flex flex={1} width={{ base: '100%', sm: '0%', md: '25%' }} justify='center'>
         <Center>
           <Player // set the ref to your class instance
             autoplay={true}
@@ -51,7 +64,6 @@ const Auth = () => {
             controls={true}
             speed={0.3}
             src="https://assets2.lottiefiles.com/packages/lf20_pwwZiL9I3Y.json"
-            style={{ height: '500px', width: '500px' }}
           >
           </Player>
         </Center>
