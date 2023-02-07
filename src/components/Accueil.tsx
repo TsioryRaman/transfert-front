@@ -28,7 +28,7 @@ const Accueil = () => {
                             {isDesktop ? (
                                 <Flex justify="space-between" flex="1">
                                     <ButtonGroup variant="link" spacing="20">
-                                        {['About', 'How it works', 'Features'].map((item) => (
+                                        {['Accueil', 'A propos', 'Transferer'].map((item) => (
                                             <Button key={item}>{item}</Button>
                                         ))}
                                         <HStack>
