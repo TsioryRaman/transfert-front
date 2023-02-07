@@ -24,17 +24,18 @@ function App() {
             <li>
               <Link to="/help">Help</Link>
             </li>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
           </ul>
           <Routes>
             <Route index element={<Home />} />
             <Route path="blogs" element={<Help />} />
+            <Route path="Login" element={<Login />} />
           </Routes>
-
-          <Login />
         </UserContextProvider>
       </BrowserRouter>
-      <Home></Home>
-
+      {/* <Home></Home> */}
     </WebSocketProvider>
   )
 }
