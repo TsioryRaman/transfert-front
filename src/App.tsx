@@ -1,10 +1,12 @@
 import { socket, WebSocketProvider } from './WebSocketContexts'
-import { Home } from './components/home'
-import Login, { User } from './components/login';
+import { Home } from './pages/home';
+import Login, { User } from './pages/login';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
-import { Help } from './components/help'
+import { Help } from './pages/help'
 import { UserContext, UserContextProvider } from './context/UserContext'
 import { useState } from 'react';
+import ProtectedRoute from './components/ProtectedRoute';
+import { Effect } from './pages/testUseEffect';
 
 function App() {
 
@@ -19,22 +21,36 @@ function App() {
         <UserContextProvider value={{ user, handleLogin }}>
           <ul>
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/home">Home</Link>
             </li>
             <li>
               <Link to="/help">Help</Link>
             </li>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+
+
           </ul>
           <Routes>
             <Route index element={<Home />} />
             <Route path="blogs" element={<Help />} />
+            <Route path="/login" element={<Login />} />
+
+            <Route path="/home" element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            } />
           </Routes>
 
-          <Login />
+
+          {/* <Login /> */}
         </UserContextProvider>
       </BrowserRouter>
-      <Home></Home>
+      {/* <Home></Home> */}
 
+      <Effect />
     </WebSocketProvider>
   )
 }

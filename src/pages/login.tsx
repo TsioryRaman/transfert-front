@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useContext } from 'react';
-import { UserContext } from './../context/UserContext';
+import { UserContext } from '../context/UserContext';
 import {
     Input, Button, Box, FormControl,
     FormLabel,
     Text,
+    Badge,
 } from '@chakra-ui/react'
 
 export interface User {
@@ -16,7 +17,7 @@ const Login: React.FC<Props> = ({ }) => {
     const [username, setUserName] = useState('');
 
     const [token, setToken] = useState<string>('')
-
+    const [error, setError] = useState<boolean>(false)
     const { user, handleLogin } = useContext(UserContext)
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
@@ -32,11 +33,26 @@ const Login: React.FC<Props> = ({ }) => {
             });
             const data = await response.json();
             console.log(data)
-            console.log(user);
-            handleLogin({ token: data.access_token })
-            setToken(user.token)
+            if (data.statusCode === 401) {
+                setError(data.message);
+            } else {
+                handleLogin({ token: data.access_token })
+                setToken(user.token)
+            }
+
+            // console.log(user);
         } catch (e) {
             console.error(e);
+
+        }
+    }
+
+    const onChange = (e: any) => {
+        setError(false)
+        if (e.target.name === 'username') {
+            setUserName(e.target.value);
+        } else {
+            setPassword(e.target.value);
         }
     }
 
@@ -46,22 +62,29 @@ const Login: React.FC<Props> = ({ }) => {
             <Input
                 type="text"
                 id="username"
+                name='username'
                 value={username}
-                onChange={(event) => setUserName(event.target.value)}
+                onChange={onChange}
             />
             <FormLabel htmlFor="username">Password:</FormLabel>
             <Input
                 type="password"
                 id="password"
+                name='password'
                 value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={onChange}
             />
+            {
+                error ? <Badge colorScheme='red'>erreur</Badge> : null
+            }
             <Button type={"submit"} mt='4' w='full' colorScheme='blue'>Login</Button>
         </form>
-
+        {/* 
         <Text>
             Le token - {JSON.stringify(token)}
-        </Text>
+        </Text> */}
+
+
     </Box>
 }
 export default Login;
