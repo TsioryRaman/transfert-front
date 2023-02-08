@@ -1,8 +1,20 @@
-import React from 'react'
-import { Button, Box } from '@chakra-ui/react';
-const MyButton: React.FC = () => {
+import React, { useContext } from 'react';
+import { Navigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext'
 
-    return <Box>
-        <Button type={"submit"} mt='4' w='full' colorScheme='blue'>{count}</Button>
-    </Box>
+interface PrivateRouteProps {
 }
+
+const ProtectedRoute: React.FC<PrivateRouteProps> = (props: any) => {
+    const { user } = useContext(UserContext);
+
+    console.log(user)
+
+    if (!user?.token) {
+        return <Navigate to="/login" />
+    }
+
+    return props.children;
+};
+
+export default ProtectedRoute;
