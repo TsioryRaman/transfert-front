@@ -1,0 +1,1 @@
+declare "react-reveal";
