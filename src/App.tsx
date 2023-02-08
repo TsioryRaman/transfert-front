@@ -1,8 +1,9 @@
+
 import { socket, WebSocketProvider } from './socket.io/WebSocketContexts'
-import { Home } from './components/home'
-import Login, { User } from './components/login';
+import { Home } from './pages/home';
+import Login, { User } from './pages/login';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
-import { Help } from './components/help'
+import { Help } from './pages/help'
 import { UserContext, UserContextProvider } from './context/UserContext'
 import { useState } from 'react';
 import Accueil from './components/Accueil';
@@ -13,10 +14,11 @@ import Signup from './components/Signup';
 import {IoMdMoon} from "react-icons/io";
 import {BsSunFill} from "react-icons/bs"
 import { Box, Container, Flex, HStack } from '@chakra-ui/layout';
+
 function App() {
 
-  const [user, setUser] = useState<User>()
   const { colorMode, toggleColorMode } = useColorMode()
+  const [user, setUser] = useState<User>()
   const handleLogin = (token: {}) => {
     setUser(token)
   }
@@ -66,4 +68,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
