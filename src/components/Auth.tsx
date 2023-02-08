@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
 import { extendTheme } from '@chakra-ui/react'
+import Fade from "react-reveal";
 
 const Auth = () => {
   const breakpoints = {
@@ -29,27 +30,29 @@ const Auth = () => {
     <Stack minH={'75vh'} direction={{ base: 'column', md: 'row' }}>
       <Flex p={8} flex={1} align={'center'} justify={'center'}>
         <Stack spacing={4} w={'full'} maxW={'md'}>
-          <Heading fontSize={'2xl'}>Sign in to your account</Heading>
-          <FormControl id="email">
-            <FormLabel>Email address</FormLabel>
-            <Input type="email" />
-          </FormControl>
-          <FormControl id="password">
-            <FormLabel>Password</FormLabel>
-            <Input type="password" />
-          </FormControl>
-          <Stack spacing={6}>
-            <Stack
-              direction={{ base: 'column', sm: 'row' }}
-              align={'start'}
-              justify={'space-between'}>
-              <Checkbox>Remember me</Checkbox>
-              <Link color={'blue.500'} href='./Signup'>Forgot password?</Link>
+          <Fade bottom>
+            <Heading fontSize={'2xl'}>Sign in to your account</Heading>
+            <FormControl id="email">
+              <FormLabel>Email address</FormLabel>
+              <Input type="email" />
+            </FormControl>
+            <FormControl id="password">
+              <FormLabel>Password</FormLabel>
+              <Input type="password" />
+            </FormControl>
+            <Stack spacing={6}>
+              <Stack
+                direction={{ base: 'column', sm: 'row' }}
+                align={'start'}
+                justify={'space-between'}>
+                <Checkbox>Remember me</Checkbox>
+                <Link color={'blue.500'} href='./Signup'>Forgot password?</Link>
+              </Stack>
+              <Button colorScheme={'blue'} variant={'solid'}>
+                Sign in
+              </Button>
             </Stack>
-            <Button colorScheme={'blue'} variant={'solid'}>
-              Sign in
-            </Button>
-          </Stack>
+          </Fade>
         </Stack>
       </Flex>
 
