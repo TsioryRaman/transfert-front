@@ -12,11 +12,12 @@ import {
     Stack,
 } from '@chakra-ui/react';
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
+import Fade from "react-reveal";
 
 const Signup = () => {
     return (
 
-        <Stack minH={'75vh'} direction={{ base: 'column', md: 'row' }}>
+        <Stack minH={'75vh'} overflowX="hidden" direction={{ base: 'column', md: 'row' }}>
 
             <Flex flex={1} justify='center'>
                 <Center>
@@ -33,6 +34,7 @@ const Signup = () => {
             </Flex>
             <Flex p={8} flex={1} align={'center'} justify={'center'}>
                 <Center>
+                    <Fade right>
                     <Stack spacing={4} w={'full'} maxW={'md'}>
                         <Heading fontSize={'3xl'} mb='6'>
                             <Center>Connect your Google Account</Center>
@@ -70,6 +72,7 @@ const Signup = () => {
                             </Button>
                         </Stack>
                     </Stack>
+                    </Fade>
                 </Center>
             </Flex>
 
