@@ -1,9 +1,10 @@
 import { socket, WebSocketProvider } from "./socket.io/WebSocketContexts";
-import { User } from "./pages/public/login";
+import Login, { User } from "./pages/public/login";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { UserContextProvider } from "./context/UserContext";
 import { useState } from "react";
-import { Login } from "./pages/public/Auth";
+// import { Login } from "./pages/public/Auth";
+// import { login } from "./pages/public/login";
 import Signup from "./pages/public/Signup";
 import { Box, Container, Flex, HStack } from "@chakra-ui/layout";
 import ProtectedRoute from "./components/RouteGuard/ProtectedRoute";
@@ -36,24 +37,24 @@ function App() {
                     {
                       /** Lien Public */
                       !logged &&
-                        MainLinkPublic.map((link, index) => (
-                          <LinkActive
-                            to={link.link}
-                            key={index}
-                            name={link.name}
-                          />
-                        ))
+                      MainLinkPublic.map((link, index) => (
+                        <LinkActive
+                          to={link.link}
+                          key={index}
+                          name={link.name}
+                        />
+                      ))
                     }
                     {
                       /** Lien Privee */
                       logged &&
-                        MainLinkPrivate.map((link, index) => (
-                          <LinkActive
-                            to={link.link}
-                            key={index}
-                            name={link.name}
-                          />
-                        ))
+                      MainLinkPrivate.map((link, index) => (
+                        <LinkActive
+                          to={link.link}
+                          key={index}
+                          name={link.name}
+                        />
+                      ))
                     }
                     {/** Mode dark light */}
                     <ButtonDarkLight />
@@ -65,14 +66,14 @@ function App() {
           <Routes>
             {/** Route PRIVEE */}
             <Route element={<ProtectedRoute />}>
-              <Route path="acceuil" element={<Acceuil title="acceuil"/>} />
+              <Route path="acceuil" element={<Acceuil title="accueil" />} />
               <Route path="help" element={<Help />} />
             </Route>
             {/** Route PUBLIC */}
             <Route element={<PublicRoute />}>
-              <Route path="login" element={<Login title="login"/>} />
-              <Route element={<Signup title="signup"/>} path="signup" />
-              <Route path="transfert" element={<Transfert title="transfert"/>} />
+              <Route path="login" element={<Login title="login" />} />
+              <Route element={<Signup title="signup" />} path="signup" />
+              <Route path="transfert" element={<Transfert title="transfert" />} />
             </Route>
             <Route path="*" element={<Navigate to="/acceuil" />} />
           </Routes>
