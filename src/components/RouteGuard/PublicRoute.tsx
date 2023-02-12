@@ -1,21 +1,10 @@
-import React, { useContext, useEffect } from 'react';
-import { Location, Navigate, Outlet, useLocation } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext'
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useLogged } from '../hooks/useLogged';
 
 export const PublicRoute = () => {
 
-    const { user } = useContext(UserContext);
+    const logged = useLogged();
 
-    return user?.token ? <Navigate to="/acceuil" /> : <Outlet />;
-
-    // if(!user?.token && !allowPrivateRoute) {
-    //     return <Navigate to="/login" />
-    // }
-    
-    // if (user?.token && allowPrivateRoute){
-    //     return <Navigate to="/acceuil" />
-    // }
-
-
-    // return props.children;
+    return logged ? <Navigate to="/acceuil" /> : <Outlet />;
 };
