@@ -1,12 +1,9 @@
 
 import { socket, WebSocketProvider } from './socket.io/WebSocketContexts'
-import { Home } from './pages/home';
 import Login, { User } from './pages/login';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
-import { Help } from './pages/help'
+import { BrowserRouter, Link, Location, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { UserContext, UserContextProvider } from './context/UserContext'
-import { useState } from 'react';
-import Accueil from './components/Accueil';
+import { useContext, useState } from 'react';
 import Auth from './components/Auth';
 import { useColorMode } from '@chakra-ui/color-mode';
 import { Button, IconButton } from '@chakra-ui/button';
@@ -14,14 +11,45 @@ import Signup from './components/Signup';
 import {IoMdMoon} from "react-icons/io";
 import {BsSunFill} from "react-icons/bs"
 import { Box, Container, Flex, HStack } from '@chakra-ui/layout';
+import ProtectedRoute, { privateLink } from './components/RouteGuard/ProtectedRoute';
+import { LinkActive } from './components/LinkActive';
+import { useLogged } from './components/hooks/useLogged';
+import { Help } from './pages/Help';
+import { Acceuil } from './pages/Acceuil';
+import { PublicRoute } from './components/RouteGuard/PublicRoute';
+
+type LinkType = {
+  name:string,
+  link:string
+}
+
+const MainLinkPublic:Array<LinkType> = [
+{
+  name:"Login",
+  link:"/login"
+},
+{
+  name:"Signup",
+  link:"/signup"
+}
+];
+
+const MainLinkPrivate:Array<LinkType> = [{
+  name:"Acceuil",
+  link:"/acceuil"
+},]
 
 function App() {
 
   const { colorMode, toggleColorMode } = useColorMode()
+
+  const logged:boolean = useLogged();
   const [user, setUser] = useState<User>()
   const handleLogin = (token: {}) => {
     setUser(token)
   }
+
+
   return (
     <WebSocketProvider value={socket}>
       <BrowserRouter>
@@ -31,10 +59,16 @@ function App() {
               <Container py={{ base: '4', lg: '5' }}>
                 <HStack spacing="10" justify="space-between">
                   <Flex justify="space-between" alignItems={"center"} flex="1">
-                    <Link to="/">Home</Link>
-                    <Link to="/Accueil">Accueil</Link>
-                    <Link to="/login">Login</Link>
-                    <Link to="/signup">signup</Link>
+                    {
+                      !logged && MainLinkPublic.map((link,index)=>(
+                        <LinkActive to={link.link} key={index} name={link.name}/>
+                    ))
+                    }
+                    {
+                      logged && MainLinkPrivate.map((link,index)=>(
+                        <LinkActive to={link.link} key={index} name={link.name}/>
+                    ))
+                    }
 
                     <Button p={0} onClick={toggleColorMode}>
                         {colorMode === "light" ? 
@@ -56,10 +90,15 @@ function App() {
             </Box>
           </Box>
           <Routes>
-            <Route index element={<Home />} />
-            <Route path="Accueil" element={<Accueil />} />
-            <Route path="Login" element={<Auth />} />
-            <Route path="Signup" element={<Signup />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path='acceuil' element={<Acceuil />}/>
+              <Route path='help' element={<Help />} />
+            </Route>
+            <Route element={<PublicRoute />}>
+              <Route path="login" element={<Auth />} />
+              <Route element={<Signup />} path="signup" />
+            </Route>
+            <Route path='*' element={<Navigate to="/acceuil" />}  />
           </Routes>
         </UserContextProvider>
       </BrowserRouter>

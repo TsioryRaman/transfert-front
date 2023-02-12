@@ -16,7 +16,7 @@ import { GrLogout } from 'react-icons/gr'
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
 
 
-const Accueil = () => {
+export const Acceuil = () => {
     
     const isDesktop = useBreakpointValue({ base: false, lg: true })
     return (
@@ -50,4 +50,3 @@ const Accueil = () => {
         </>
     )
 }
-export default Accueil
