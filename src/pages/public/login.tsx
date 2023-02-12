@@ -9,12 +9,13 @@ import {
   FormLabel,
   Text,
 } from "@chakra-ui/react";
+import { RouteProps } from "../RouteProps";
 
 export interface User {
   token?: string;
 }
 interface Props {}
-const Login: React.FC<Props> = ({}) => {
+const Login: React.FC<RouteProps> = ({title}) => {
   const [password, setPassword] = useState("");
   const [username, setUserName] = useState("");
 

@@ -12,8 +12,10 @@ import {
 } from "@chakra-ui/react";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import { extendTheme } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { RouteProps } from "../RouteProps";
 
-export const Login = () => {
+export const Login:React.FC<RouteProps> = ({title}) => {
   const breakpoints = {
     sm: "320px",
     md: "768px",
@@ -22,6 +24,10 @@ export const Login = () => {
     "2xl": "1536px",
   };
   const theme = extendTheme({ breakpoints });
+
+  useEffect(()=> {
+    document.title = import.meta.env.VITE_PROJECT_NAME +  " | " + title;
+  },[])
 
   return (
     <Stack minH={"75vh"} direction={{ base: "column", md: "row" }}>
