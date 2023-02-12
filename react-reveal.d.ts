@@ -1,1 +1,1 @@
-declare "react-reveal";
+declare module "react-reveal";
