@@ -1,8 +1,8 @@
 import { Text } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { Location, NavLink, useLocation } from "react-router-dom"
-import { UserContext } from "../context/UserContext";
-import { privateLink } from "./RouteGuard/ProtectedRoute";
+import { UserContext } from "../../context/UserContext";
+import { privateLink } from "../RouteGuard/ProtectedRoute";
 
 interface LinkProps {
     to:string;
