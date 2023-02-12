@@ -15,6 +15,7 @@ import { PublicRoute } from "./components/RouteGuard/PublicRoute";
 import { ButtonDarkLight } from "./components/ui/ModeDarkLight";
 import { MainLinkPublic } from "./pages/public/PublicLink";
 import { MainLinkPrivate } from "./pages/private/PrivateLink";
+import { Transfert } from "./pages/public/Transfert";
 
 function App() {
   const logged: boolean = useLogged();
@@ -64,13 +65,14 @@ function App() {
           <Routes>
             {/** Route PRIVEE */}
             <Route element={<ProtectedRoute />}>
-              <Route path="acceuil" element={<Acceuil />} />
+              <Route path="acceuil" element={<Acceuil title="acceuil"/>} />
               <Route path="help" element={<Help />} />
             </Route>
             {/** Route PUBLIC */}
             <Route element={<PublicRoute />}>
-              <Route path="login" element={<Login />} />
-              <Route element={<Signup />} path="signup" />
+              <Route path="login" element={<Login title="login"/>} />
+              <Route element={<Signup title="signup"/>} path="signup" />
+              <Route path="transfert" element={<Transfert title="transfert"/>} />
             </Route>
             <Route path="*" element={<Navigate to="/acceuil" />} />
           </Routes>

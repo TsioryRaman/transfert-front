@@ -4,11 +4,18 @@ import {
   Heading,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { GrLogout } from "react-icons/gr";
-import { Player, Controls } from "@lottiefiles/react-lottie-player";
+import { Player } from "@lottiefiles/react-lottie-player";
+import { useEffect } from "react";
+import { RouteProps } from "../RouteProps";
 
-export const Acceuil = () => {
+export const Acceuil:React.FC<RouteProps> = ({title}) => {
+
   const isDesktop = useBreakpointValue({ base: false, lg: true });
+
+  useEffect(()=> {
+    document.title = import.meta.env.VITE_PROJECT_NAME +  " | " + title;
+  },[])
+
   return (
     <>
       <Stack spacing="6">

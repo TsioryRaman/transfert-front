@@ -12,8 +12,15 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
+import { useEffect } from "react";
+import { RouteProps } from "../RouteProps";
 
-const Signup = () => {
+const Signup:React.FC<RouteProps> = ({title}) => {
+
+  useEffect(()=> {
+    document.title = import.meta.env.VITE_PROJECT_NAME + " | " + title;
+  },[])
+
   return (
     <Stack minH={"75vh"} direction={{ base: "column", md: "row" }}>
       <Flex flex={1} justify="center">
