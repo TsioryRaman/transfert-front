@@ -9,9 +9,5 @@ export const MainLinkPublic:Array<LinkType> =
     {
       name:"Signup",
       link:"/signup"
-    },
-    {
-      name:"Transfert",
-      link:"/transfert"
     }
 ];

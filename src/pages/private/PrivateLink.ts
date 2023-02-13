@@ -6,4 +6,8 @@ export const MainLinkPrivate: Array<LinkType> = [
     name: "Acceuil",
     link: "/acceuil",
   },
+  {
+    name:"Transfert",
+    link:"/transfert"
+  }
 ];

@@ -1,14 +1,12 @@
 import { socket, WebSocketProvider } from "./socket.io/WebSocketContexts";
-import { User } from "./pages/public/login";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { UserContextProvider } from "./context/UserContext";
-import { useState } from "react";
-import { Login } from "./pages/public/Auth";
+import { useEffect, useState } from "react";
+import { Login } from "./pages/public/Login";
 import Signup from "./pages/public/Signup";
 import { Box, Container, Flex, HStack } from "@chakra-ui/layout";
 import ProtectedRoute from "./components/RouteGuard/ProtectedRoute";
 import { LinkActive } from "./components/ui/LinkActive";
-import { useLogged } from "./components/hooks/useLogged";
 import { Help } from "./pages/private/Help";
 import { Acceuil } from "./pages/private/Acceuil";
 import { PublicRoute } from "./components/RouteGuard/PublicRoute";
@@ -17,11 +15,19 @@ import { MainLinkPublic } from "./pages/public/PublicLink";
 import { MainLinkPrivate } from "./pages/private/PrivateLink";
 import { Transfert } from "./pages/public/Transfert";
 
+export interface User {
+  token: string;
+  isAuthenticated:boolean;
+}
+
 function App() {
-  const logged: boolean = useLogged();
-  const [user, setUser] = useState<User>();
-  const handleLogin = (token: {}) => {
-    setUser(token);
+  const [user, setUser] = useState<User>({token:"",isAuthenticated:false});
+
+  useEffect(()=> {
+  },[user])
+  const handleLogin = (_user: User) => {
+    console.log(_user.token)
+    setUser({token:_user.token,isAuthenticated:_user.isAuthenticated});
   };
 
   return (
@@ -35,7 +41,7 @@ function App() {
                   <Flex justify="space-between" alignItems={"center"} flex="1">
                     {
                       /** Lien Public */
-                      !logged &&
+                      !user.isAuthenticated &&
                         MainLinkPublic.map((link, index) => (
                           <LinkActive
                             to={link.link}
@@ -46,7 +52,7 @@ function App() {
                     }
                     {
                       /** Lien Privee */
-                      logged &&
+                      user.isAuthenticated &&
                         MainLinkPrivate.map((link, index) => (
                           <LinkActive
                             to={link.link}
@@ -67,12 +73,12 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="acceuil" element={<Acceuil title="acceuil"/>} />
               <Route path="help" element={<Help />} />
+              <Route path="transfert" element={<Transfert title="transfert"/>} />
             </Route>
             {/** Route PUBLIC */}
             <Route element={<PublicRoute />}>
               <Route path="login" element={<Login title="login"/>} />
               <Route element={<Signup title="signup"/>} path="signup" />
-              <Route path="transfert" element={<Transfert title="transfert"/>} />
             </Route>
             <Route path="*" element={<Navigate to="/acceuil" />} />
           </Routes>
