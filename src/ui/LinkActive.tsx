@@ -1,8 +1,5 @@
 import { Text } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
 import { Location, NavLink, useLocation } from "react-router-dom"
-import { UserContext } from "../../context/UserContext";
-import { privateLink } from "../RouteGuard/ProtectedRoute";
 
 interface LinkProps {
     to:string;
@@ -11,16 +8,10 @@ interface LinkProps {
 
 export const LinkActive:React.FC<LinkProps> = ({to,name}) => {
 
-    const {user} = useContext(UserContext);
-
-
-    const location:Location = useLocation()
-    const allowPrivateRoute:boolean = privateLink.some(p => location.pathname.includes(p))
-
     return (<>
-                <NavLink  to={to}>
+                <NavLink to={to}>
                 {({ isActive }) =>
-                    <Text color={isActive?"green.500":"gray.600"}>{name}</Text>
+                    <Text padding="8" color={isActive?"green.500":"gray.600"}>{name}</Text>
                 }
             </NavLink>
     </>)

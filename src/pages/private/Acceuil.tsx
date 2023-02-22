@@ -3,9 +3,12 @@ import {
   Center,
   Heading,
   useBreakpointValue,
+  Button,
 } from "@chakra-ui/react";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useEffect } from "react";
+import { Pricing } from "../../components/Pricing";
+import AXIOS from "../../shared/jwtInterceptor";
 import { RouteProps } from "../RouteProps";
 
 export const Acceuil:React.FC<RouteProps> = ({title}) => {
@@ -16,11 +19,16 @@ export const Acceuil:React.FC<RouteProps> = ({title}) => {
     document.title = import.meta.env.VITE_PROJECT_NAME +  " | " + title;
   },[])
 
+  const loadUser = async () => {
+    const response =  await AXIOS.get('/user/profile');
+    console.log(response.data)
+  }
+
   return (
     <>
-      <Stack spacing="6">
+      <Stack mt="16" spacing="6">
         <Center>
-          <Heading as="h2" size="3xl">
+          <Heading as="h2" fontSize={"4xl"}>
             Big Transfers, Bigger <br />
             <Center>Impact</Center>
           </Heading>
@@ -43,6 +51,7 @@ export const Acceuil:React.FC<RouteProps> = ({title}) => {
         /* src="https://assets8.lottiefiles.com/packages/lf20_mbrocy0r.json" */
         style={{ height: "450px", width: "500px" }}
       ></Player>
+      <Pricing />
     </>
   );
 };

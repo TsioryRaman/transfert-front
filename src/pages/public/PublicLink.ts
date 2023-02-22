@@ -1,10 +1,12 @@
 import { LinkType } from "../../Types/LinkType";
+import {BiUser} from "react-icons/bi";
 
 export const MainLinkPublic:Array<LinkType> = 
 [
     {
       name:"Login",
-      link:"/login"
+      link:"/login",
+      icon: BiUser
     },
     {
       name:"Signup",
