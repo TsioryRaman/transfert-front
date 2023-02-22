@@ -2,45 +2,36 @@ import {
   Button,
   Checkbox,
   Flex,
-  FormControl,
-  FormLabel,
   Heading,
-  Input,
   Link,
   Center,
   Stack,
+  useToast,
+  Box,
+  useColorModeValue,
+  useColorMode,
 } from "@chakra-ui/react";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
 import { extendTheme } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { RouteProps } from "../RouteProps";
 import { UserContext } from "../../context/UserContext";
+import { InputForm } from "../../components/ui/InputForm";
+import { useLocation } from "react-router-dom";
 
-export const Login:React.FC<RouteProps> = ({title}) => {
-  const breakpoints = {
-    sm: "320px",
-    md: "768px",
-    lg: "960px",
-    xl: "1200px",
-    "2xl": "1536px",
-  };
-  const theme = extendTheme({ breakpoints });
-  const [password, setPassword] = useState("");
-  const [username, setUserName] = useState("");
-
+export const Login:React.FC<RouteProps> = ({title},...props) => {
+  const refUsername = useRef<HTMLInputElement>(null);
+  const refPassword = useRef<HTMLInputElement>(null);
+  const [error,setError] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
 
-  const handleChange = (e:any) => {
-      if(e.target.name === "username"){
-        setUserName(e.target.value);
-      }else{
-        setPassword(e.target.value);
-      }
-  }
   const { user, handleLogin } = useContext(UserContext);
+  const location = useLocation();
+  const toast = useToast();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const userData = JSON.stringify({ username, password });
+    setError(false);
+    const userData = JSON.stringify({ username:refUsername?.current?.value, password:refPassword?.current?.value });
     try {
       const response = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
@@ -49,11 +40,23 @@ export const Login:React.FC<RouteProps> = ({title}) => {
           "content-type": "application/json",
         },
       });
-      const data = await response.json();
-      handleLogin({ token: data.access_token,isAuthenticated:true });
-      setToken(user.token);
+      if(response.ok){
+        const data = await response.json();
+        console.log(data)
+        handleLogin({ token: data.access_token,isAuthenticated:true });
+        setToken(data);
+        localStorage.setItem("user",JSON.stringify({ token: data.access_token,refreshToken:data.refresh_token,isAuthenticated:true }));
+      }
+      else
+      {
+        refUsername.current?.focus()
+        setError(true);
+      }
     } catch (e) {
       console.error(e);
+
+      refUsername.current?.focus()
+      setError(true);
     }
   };
 
@@ -62,21 +65,30 @@ export const Login:React.FC<RouteProps> = ({title}) => {
   },[])
 
   return (
-    <Stack minH={"75vh"} direction={{ base: "column", md: "row" }}>
-      <Flex p={8} flex={1} align={"center"} justify={"center"}>
-        <Stack spacing={4} w={"full"} maxW={"md"}>
+    <Stack flexGrow={1} position="relative" height="100%" direction={{ base: "column", md: "row" }}>
+
+      <Flex px={8}   flex={1} align={"center"} justify={"center"}>
+        <Stack spacing={4} w={"full"} maxW={["full","full","md","md"]}>
+          <Box mx={"auto"} w={["200px","200px","200px","200px"]}>
+          <Player // set the ref to your class instance
+            autoplay={true}
+            loop={true}
+            controls={true}
+            speed={0.7}
+            src={
+              error ?
+               "https://assets10.lottiefiles.com/packages/lf20_6niurjte.json" : 
+               "https://assets10.lottiefiles.com/packages/lf20_yt7b7vg3.json"
+              }
+            /* src="https://assets8.lottiefiles.com/packages/lf20_mbrocy0r.json" */
+          />
+          </Box>
           <Heading fontSize={"2xl"}>Sign in to your account</Heading>
 
       <form onSubmit={handleSubmit}>
-          <FormControl id="email">
-            <FormLabel>Email address</FormLabel>
-            <Input type="text" required name="username" onChange={handleChange} />
-          </FormControl>
-          <FormControl id="password">
-            <FormLabel>Password</FormLabel>
-            <Input type="password" required name="password" onChange={handleChange} />
-          </FormControl>
-          <Stack spacing={6}>
+          <InputForm ref={refUsername} name="username" label="Nom d'utilisateur" error={error} type="text" />
+          <InputForm ref={refPassword} name="password" label="Mot de passe" error={error} type="password" />
+          <Stack mt="4" spacing={6}>
             <Stack
               direction={{ base: "column", sm: "row" }}
               align={"start"}
@@ -92,25 +104,21 @@ export const Login:React.FC<RouteProps> = ({title}) => {
             </Button>
           </Stack>
       </form>
-
-      {JSON.stringify(user)}
         </Stack>
       </Flex>
-
       <Flex
         flex={1}
         width={{ base: "100%", sm: "0%", md: "25%" }}
         justify="center"
       >
-        <Center>
+        <Center w={["0","500px","500px","500px"]}>
           <Player // set the ref to your class instance
             autoplay={true}
             loop={true}
             controls={true}
             speed={0.7}
-            src="https://assets5.lottiefiles.com/packages/lf20_fWd36IjnsR.json"
+            src="https://assets8.lottiefiles.com/packages/lf20_KvK0ZJBQzu.json"
             /* src="https://assets8.lottiefiles.com/packages/lf20_mbrocy0r.json" */
-            style={{ height: "500px", width: "500px" }}
           ></Player>
         </Center>
       </Flex>

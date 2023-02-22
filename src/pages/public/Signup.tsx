@@ -12,17 +12,54 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { Player, Controls } from "@lottiefiles/react-lottie-player";
-import { useEffect } from "react";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { InputForm } from "../../components/ui/InputForm";
+import { SignupErrorType } from "../../Types/SignupErrorType";
 import { RouteProps } from "../RouteProps";
 
-const Signup:React.FC<RouteProps> = ({title}) => {
+const Signup: React.FC<RouteProps> = ({ title }) => {
 
-  useEffect(()=> {
+  // Form controle
+  const [error,setError]   = useState<SignupErrorType>();
+
+  const refUsername        = useRef<HTMLInputElement>(null);
+  const refEmail           = useRef<HTMLInputElement>(null);
+  const refPassword        = useRef<HTMLInputElement>(null);
+  const refConfirmPassword = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
     document.title = import.meta.env.VITE_PROJECT_NAME + " | " + title;
-  },[])
+  }, []);
+
+  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log(
+      "username: ",refUsername.current?.value,
+      "password: ",refPassword.current?.value,
+      "email: :",refEmail.current?.value
+    )
+
+    const _user = {
+      "username":refUsername.current?.value,
+      "password":refPassword.current?.value,
+      "confirmPassword":refConfirmPassword.current?.value,
+      "email":refEmail.current?.value
+    }
+
+    try{
+      const response = await axios.post(import.meta.env.VITE_ENDPOINT_API_BASE_URL + "/user",{
+        data:JSON.stringify(_user)
+      })
+      console.log(response.data)
+    }catch(e)
+    {
+      console.log(e)
+    }
+  }
 
   return (
-    <Stack minH={"75vh"} direction={{ base: "column", md: "row" }}>
+    <Stack mt="40" direction={{ base: "column", md: "row" }}>
       <Flex flex={1} justify="center">
         <Center>
           <Player // set the ref to your class instance
@@ -35,45 +72,37 @@ const Signup:React.FC<RouteProps> = ({title}) => {
           ></Player>
         </Center>
       </Flex>
-      <Flex p={8} flex={1} align={"center"} justify={"center"}>
+      <Flex px={8} flex={1} align={"center"} justify={"center"}>
         <Center>
           <Stack spacing={4} w={"full"} maxW={"md"}>
             <Heading fontSize={"3xl"} mb="6">
               <Center>Connect your Google Account</Center>
             </Heading>
             <HStack>
-              <FormControl id="Name">
-                <FormLabel>Name</FormLabel>
-                <Input type="text" />
-              </FormControl>
-              <FormControl id="Username">
-                <FormLabel>Username</FormLabel>
-                <Input type="text" />
-              </FormControl>
-            </HStack>
-            <FormControl id="Email">
-              <FormLabel>Email</FormLabel>
-              <Input type="email" />
-            </FormControl>
-            <FormControl id="Password">
-              <FormLabel>Password</FormLabel>
-              <Input type="password" />
-            </FormControl>
-            <Stack spacing={6}>
-              <Stack
-                direction={{ base: "column", sm: "row" }}
-                align={"start"}
-                justify={"space-between"}
-              >
-                <Checkbox>
-                  Creating an account means you're okey with our.{" "}
-                  <Link color={"blue.500"}>Term of service.Privacy Policy</Link>
-                </Checkbox>
+              <form onSubmit={handleSubmit}>
+                <InputForm ref={refUsername} type="text" error={error?.username.isError || false} label="Nom d'utilisateur" name="name"/>
+                <InputForm ref={refEmail} type="email" error={error?.email.isError || false} label="Email" name="email"/>
+                <InputForm ref={refPassword} type="password" error={error?.password.isError || false} label="Mot de passe" name="password"/>
+                <InputForm ref={refConfirmPassword} type="password" error={error?.password.isError || false} label="Confirmez mot de passe" name="passwordConfirm"/>
+              <Stack spacing={6}>
+                <Stack
+                  direction={{ base: "column", sm: "row" }}
+                  align={"start"}
+                  justify={"space-between"}
+                >
+                  <Checkbox>
+                    Creating an account means you're okey with our.{" "}
+                    <Link color={"blue.500"}>
+                      Term of service.Privacy Policy
+                    </Link>
+                  </Checkbox>
+                </Stack>
+                <Button type="submit" colorScheme={"blue"} variant={"solid"}>
+                  Create Account
+                </Button>
               </Stack>
-              <Button colorScheme={"blue"} variant={"solid"}>
-                Create Account
-              </Button>
-            </Stack>
+              </form>
+            </HStack>
           </Stack>
         </Center>
       </Flex>
